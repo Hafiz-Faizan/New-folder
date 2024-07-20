@@ -1,19 +1,14 @@
 FROM node:16-alpine
 
-# Install Puppeteer dependencies
+# Install essential Puppeteer dependencies
 RUN apk add --no-cache \
     chromium \
     freetype \
-    freetype-dev \
     fontconfig \
     cairo \
     pango \
     libpng \
-    giflib \
     jpeg \
-    tk \
-    tcl \
-    fribidi \
     libxrender \
     libxext \
     libx11 \
@@ -24,8 +19,6 @@ RUN apk add --no-cache \
     libxml2 \
     libxslt \
     libjpeg-turbo \
-    libpng \
-    freetype \
     libfreetype \
     libharfbuzz \
     alsa-lib \
