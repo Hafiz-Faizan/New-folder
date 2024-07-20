@@ -3,7 +3,6 @@ FROM node:16-alpine
 # Install essential Puppeteer dependencies
 RUN apk add --no-cache \
     chromium \
-    freetype \
     fontconfig \
     cairo \
     pango \
@@ -15,15 +14,11 @@ RUN apk add --no-cache \
     libxcomposite \
     libxdamage \
     libxi \
-    libglu \
     libxml2 \
     libxslt \
     libjpeg-turbo \
-    libfreetype \
-    libharfbuzz \
     alsa-lib \
     dbus \
-    gconf \
     gtk+3.0 \
     nspr \
     nss \
