@@ -1,38 +1,32 @@
-FROM node:16-alpine
+# Use an official Node runtime as a parent image
+FROM node:18-slim
 
-# Install essential Puppeteer dependencies
-RUN apk add --no-cache \
-    chromium \
-    fontconfig \
-    cairo \
-    pango \
-    libpng \
-    jpeg \
-    libxrender \
-    libxext \
-    libx11 \
-    libxcomposite \
-    libxdamage \
-    libxi \
-    libxml2 \
-    libxslt \
-    libjpeg-turbo \
-    alsa-lib \
-    dbus \
-    gtk+3.0 \
-    nspr \
-    nss \
-    capstone \
-    zip \
-    unzip \
-    curl \
-    && rm -rf /var/cache/apk/*
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y wget gnupg ca-certificates
 
-WORKDIR /app
+# Add Google's official GPG key
+RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
 
-COPY package*.json ./
-RUN npm install
+# Add the Google Chrome repository
+RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list'
 
+# Install Google Chrome
+RUN apt-get update && \
+    apt-get install -y google-chrome-stable
+
+# Set up Puppeteer to not download Chromium as it will use the one installed
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+
+# Install Puppeteer
+RUN npm install puppeteer
+
+# Copy the application code
+WORKDIR /usr/src/app
 COPY . .
 
-CMD [ "node", "index.js" ]
+# Install dependencies for your application
+RUN npm install
+
+# Command to run your application
+CMD ["node", "index.js"]

@@ -2,9 +2,7 @@ const puppeteer = require('puppeteer');
 
 (async () => {
   try {
-    const browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    });
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
     // Replace 'YOUR_WEBSITE_URL' with your actual website URL
